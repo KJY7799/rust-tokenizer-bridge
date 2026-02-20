@@ -1,0 +1,12 @@
+[package]
+name = "my_tokenizer_bridge"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+# 자바(JNI/JNA)나 C에서 호출 가능한 동적 라이브러리 형태로 빌드함
+crate-type = ["cdylib"]
+
+[dependencies]
+# 허깅페이스의 공식 Rust 토크나이저 엔진
+tokenizers = "0.21.0"
