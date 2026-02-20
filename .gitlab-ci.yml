@@ -1,0 +1,19 @@
+# 빌드 단계 정의
+stages:
+  - build
+
+build-intel-mac:
+  stage: build
+  tags:
+    - macos
+    - intel
+  script:
+    # 1. 인텔 맥 타겟 추가
+    - rustup target add x86_64-apple-darwin
+    # 2. 릴리즈 빌드 수행
+    - cargo build --release --target x86_64-apple-darwin
+  # 3. 빌드된 결과물을 다운로드 가능하게 저장 (Artifacts)
+  artifacts:
+    paths:
+      - target/x86_64-apple-darwin/release/librust_tokenizer_bridge.dylib
+    expire_in: 1 week  # 1주일 동안만 서버에 보관
