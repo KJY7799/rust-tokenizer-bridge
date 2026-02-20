@@ -3,25 +3,31 @@ name: Build macOS Library
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:      # 버튼 눌러서 수동 실행 가능하게 함
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-latest # 가장 안정적인 최신 맥 서버 사용
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: x86_64-apple-darwin
+          targets: x86_64-apple-darwin # 인텔 맥 타겟 고정
 
       - name: Build for Intel Mac
         run: cargo build --release --target x86_64-apple-darwin
+
+      - name: Check build output
+        run: ls -R target/x86_64-apple-darwin/release/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos-intel-dylib
-          path: target/x86_64-apple-darwin/release/librust_tokenizer_bridge.dylib
+          # 특정 파일명 대신 와일드카드(*)를 사용하여 모든 dylib 파일을 수집
+          path: target/x86_64-apple-darwin/release/*.dylib
+          if-no-files-found: error # 파일이 안 뽑히면 에러를 내서 바로 알 수 있게 함
