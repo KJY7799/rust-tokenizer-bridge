@@ -1,5 +1,5 @@
 [package]
-name = "my_tokenizer_bridge"
+name = "rust_tokenizer_bridge"
 version = "0.1.0"
 edition = "2021"
 

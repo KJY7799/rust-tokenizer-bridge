@@ -94,22 +94,22 @@ mod tests {
         init_tokenizer(path.as_ptr()); 
 
         // 2. 인코딩 테스트
-        let text = CString::new("안녕하세요, 테스트 문장입니다.").unwrap();
+      let text = CString::new("Hello tokenizer test.").unwrap();
         let mut out_len: usize = 0;
 
         let ptr = encode_to_ids(text.as_ptr(), &mut out_len as *mut usize);
         
         if !ptr.is_null() {
             // --- 이 부분을 추가했습니다 ---
-            println!("✅ 싱글톤 엔진 작동 확인!");
-            println!("✅ 추출된 토큰 개수: {}", out_len);
+            println!("Singleton engine check passed");
+            println!("Token count: {}", out_len);
             // ---------------------------
             
             assert!(out_len > 0);
             free_ids(ptr, out_len);
-            println!("✅ 메모리 해제 완료");
+            println!("Memory freed successfully");
         } else {
-            panic!("❌ 인코딩 결과가 NULL입니다.");
+            panic!("Encoding returned NULL");
         }
     }
 }
