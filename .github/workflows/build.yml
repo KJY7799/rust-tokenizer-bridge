@@ -1,0 +1,25 @@
+name: Build for Intel Mac
+
+on:
+  push:
+    branches: [ main, master ]  # main이나 master 어디에 푸시해도 빌드되게 설정
+
+jobs:
+  build:
+    runs-on: macos-14  # 인텔 맥 타겟 빌드를 위한 최신 macOS 서버
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-apple-darwin
+
+      - name: Build
+        run: cargo build --release --target x86_64-apple-darwin
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-tokenizer-lib
+          path: target/x86_64-apple-darwin/release/*.dylib
